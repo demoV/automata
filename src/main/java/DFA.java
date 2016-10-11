@@ -1,19 +1,16 @@
 package main.java;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Set;
 
 public class DFA {
 
     private final Set<String> states;
     private final Set<String> alphabets;
-    private final Set<String> initialState;
+    private final String initialState;
     private final Set<String> finalState;
-    private final Map<String, HashMap<String, String>> transition;
+    private final Transition transition;
 
-    public DFA(Set<String> states, Set<String> alphabets, Set<String> initialState, Set<String> finalState, Map<String, HashMap<String, String>> transition) {
+    public DFA(Set<String> states, Set<String> alphabets, String initialState, Set<String> finalState, Transition transition) {
         this.states = states;
         this.alphabets = alphabets;
         this.initialState = initialState;
@@ -22,10 +19,10 @@ public class DFA {
     }
 
     public Boolean isPassing(String string) {
-        String currentState = new ArrayList<>(initialState).get(0);
-        for (int i = 0; i < string.length(); i++){
-            char oneChar = string.charAt(i);
-            currentState = transition.get(currentState).get(String.valueOf(oneChar));
+        String currentState = initialState;
+        for (int i = 0; i < string.length(); i++) {
+            String oneChar = String.valueOf(string.charAt(i));
+            currentState = transition.nextState(currentState, oneChar);
         }
         return finalState.contains(currentState);
     }
