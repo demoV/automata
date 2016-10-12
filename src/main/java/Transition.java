@@ -13,7 +13,7 @@ public class Transition {
         transitions.get(currentState).put(alphabet, nextState);
     }
 
-    public String nextState(String currentState, String oneChar) {
-        return transitions.get(currentState).get(oneChar);
+    public String nextState(String currentState, String alphabet) {
+        return transitions.get(currentState).get(alphabet);
     }
 }
