@@ -5,11 +5,12 @@ import org.junit.Test;
 import java.util.HashSet;
 import java.util.Set;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class DFATest {
     @Test
-    public void shouldTake5Tuple() throws Exception {
+    public void dfaCanGiveThatGivenStringIsPassingOrNot() throws Exception {
         Set<String> alphabets = new HashSet<>(2);
         alphabets.add("0");
         alphabets.add("1");
@@ -23,16 +24,16 @@ public class DFATest {
         Set<String> finalState = new HashSet<>(1);
         finalState.add("q2");
 
-        Transition transitionFunction = new Transition();
-        transitionFunction.add("q1", "0", "q1");
-        transitionFunction.add("q1", "1", "q2");
-        transitionFunction.add("q2", "0", "q1");
-        transitionFunction.add("q2", "1", "q2");
+        Transitions transitionsFunction = new Transitions();
+        transitionsFunction.add("q1", "0", "q1");
+        transitionsFunction.add("q1", "1", "q2");
+        transitionsFunction.add("q2", "0", "q1");
+        transitionsFunction.add("q2", "1", "q2");
 
-        DFA dfa = new DFA(states, alphabets, initialState, finalState, transitionFunction);
+        DFA dfa = new DFA(states, alphabets, initialState, finalState, transitionsFunction);
         Boolean isPassing = dfa.isPassing("01001");
-        assertEquals(true, isPassing);
-        assertEquals(false, dfa.isPassing("00110"));
-        assertEquals(true, dfa.isPassing("1111111"));
+        assertTrue(isPassing);
+        assertFalse(dfa.isPassing("00110"));
+        assertTrue(dfa.isPassing("1111111"));
     }
 }

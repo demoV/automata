@@ -3,7 +3,7 @@ package main.java;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Transition {
+public class Transitions {
     private Map<String, Map<String, String>> transitions = new HashMap<>();
 
 
