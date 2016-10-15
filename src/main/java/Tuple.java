@@ -1,5 +1,7 @@
 package main.java;
 
+import main.java.dfa.DFA;
+
 import java.util.HashMap;
 import java.util.List;
 
@@ -16,5 +18,9 @@ public class Tuple {
         this.delta = delta;
         this.startState = startState;
         this.finalStates = finalStates;
+    }
+
+    public DFA getDFA(DFAGenerator runner) {
+        return runner.create(states, alphabets, delta, startState, finalStates);
     }
 }

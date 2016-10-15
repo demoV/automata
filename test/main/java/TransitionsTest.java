@@ -1,5 +1,6 @@
 package main.java;
 
+import main.java.dfa.Transitions;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

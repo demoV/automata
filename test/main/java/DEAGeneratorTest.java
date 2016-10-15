@@ -1,10 +1,17 @@
 package main.java;
 
+import main.java.dfa.DFA;
+import main.java.dfa.Transitions;
+import org.junit.Assert;
 import org.junit.Test;
+
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 
 public class DEAGeneratorTest {
     @Test
-    public void shouldGiveDFAOfGivenJSON() throws Exception {
+    public void shouldParseJsonAndCanRunAllTestCases() throws Exception {
         String jsonString = "{'name':'odd number of zeroes'," +
                 "'type':'dfa'," +
                 "'tuple':{'states':['q1','q2']," +
@@ -16,7 +23,20 @@ public class DEAGeneratorTest {
                 "'failCases':['00','0000','1001','1010','001100']}";
 
         final Parser parser = new Parser();
-        DFAInput dfaInput = parser.toDFAInput(jsonString);
+        DFAManager dfaManager = parser.toDFAInput(jsonString);
 
+        DFARunner runner = dfaManager.createRunner(new DFAGenerator() {
+            @Override
+            public DFA create(List<String> states, List<String> alphabets, HashMap<String, HashMap<String, String>> delta, String startState, List<String> finalStates) {
+                HashSet<String> statesSet = new HashSet<>(states);
+                HashSet<String> alphabetSet = new HashSet<>(alphabets);
+                HashSet<String> finalSet = new HashSet<>(finalStates);
+                Transitions transitions = new Transitions();
+                transitions.addAll(delta);
+                return new DFA(statesSet, alphabetSet, startState, finalSet, transitions);
+            }
+        });
+
+        Assert.assertTrue(runner.runAll());
     }
 }

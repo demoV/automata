@@ -1,5 +1,7 @@
 package main.java;
 
+import main.java.dfa.DFA;
+import main.java.dfa.Transitions;
 import org.junit.Test;
 
 import java.util.HashSet;

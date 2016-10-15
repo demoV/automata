@@ -1,4 +1,4 @@
-package main.java;
+package main.java.dfa;
 
 import java.util.Set;
 

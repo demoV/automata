@@ -1,10 +1,9 @@
-package main.java;
+package main.java.dfa;
 
 import java.util.HashMap;
-import java.util.Map;
 
 public class Transitions {
-    private Map<String, Map<String, String>> transitions = new HashMap<>();
+    private HashMap<String, HashMap<String, String>> transitions = new HashMap<>();
 
 
     public void add(String currentState, String alphabet, String nextState) {
@@ -15,5 +14,9 @@ public class Transitions {
 
     public String nextState(String currentState, String alphabet) {
         return transitions.get(currentState).get(alphabet);
+    }
+
+    public void addAll(HashMap<String, HashMap<String, String>> delta) {
+        transitions = delta;
     }
 }
