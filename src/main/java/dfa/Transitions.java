@@ -19,4 +19,8 @@ public class Transitions {
     public void addAll(HashMap<String, HashMap<String, String>> delta) {
         transitions = delta;
     }
+
+    public String abs(String currentState) {
+        return transitions.get(currentState).get("E");
+    }
 }
