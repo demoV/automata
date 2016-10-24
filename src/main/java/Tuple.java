@@ -20,7 +20,7 @@ public class Tuple {
         this.final_states = final_states;
     }
 
-    public DFA getDFA(DFAGenerator runner) {
-        return runner.create(states, alphabets, delta, start_state, final_states);
+    public DFA getDFA(DFAGenerator generator) {
+        return generator.create(states, alphabets, delta, start_state, final_states);
     }
 }

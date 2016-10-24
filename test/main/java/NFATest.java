@@ -1,8 +1,8 @@
 package main.java;
 
-import main.java.dfa.Transitions;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -16,14 +16,26 @@ public class NFATest {
         Set<String> finalState = new HashSet<>(1);
         finalState.add("q2");
 
-        Transitions transitionsFunction = new Transitions();
-        transitionsFunction.add("q1", "1", "q2");
-        transitionsFunction.add("q1", "E", "q2");
+        NFATransitions transitions = new NFATransitions();
+        ArrayList<String> q1InputOne = new ArrayList<>();
+        q1InputOne.add("q2");
 
-        transitionsFunction.add("q2", "0", "q1");
-        transitionsFunction.add("q2", "1", "q2");
+        ArrayList<String> q1InputEpsilon = new ArrayList<>();
+        q1InputEpsilon.add("q2");
 
-        NFA nfa = new NFA(transitionsFunction, initialState, finalState);
+        transitions.add("q1", "1", q1InputOne);
+        transitions.add("q1", "E", q1InputEpsilon);
+
+        ArrayList<String> q2InputZero = new ArrayList<>();
+        q2InputZero.add("q1");
+
+        ArrayList<String> q2InputOne = new ArrayList<>();
+        q2InputOne.add("q2");
+
+        transitions.add("q2", "0", q2InputZero);
+        transitions.add("q2", "1", q2InputOne);
+
+        NFA nfa = new NFA(transitions, initialState, finalState);
         Boolean isPassing = nfa.isAccepted("01");
         assertTrue(isPassing);
     }

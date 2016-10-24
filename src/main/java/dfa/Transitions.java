@@ -20,7 +20,7 @@ public class Transitions {
         transitions = delta;
     }
 
-    public String abs(String currentState) {
+    public String epsilonState(String currentState) {
         return transitions.get(currentState).get("E");
     }
 }
