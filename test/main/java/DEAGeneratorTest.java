@@ -24,7 +24,7 @@ public class DEAGeneratorTest {
                 "'fail_cases':['00','0000','1001','1010','001100']}";
 
         final Parser parser = new Parser();
-        DFAManager dfaManager = parser.toDfARunner(jsonString);
+        DFAManager dfaManager = parser.toDFAManager(jsonString);
 
         DFARunner runner = dfaManager.createRunner(new DFAGenerator() {
             @Override

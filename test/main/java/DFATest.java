@@ -33,9 +33,9 @@ public class DFATest {
         transitionsFunction.add("q2", "1", "q2");
 
         DFA dfa = new DFA(states, alphabets, initialState, finalState, transitionsFunction);
-        Boolean isPassing = dfa.isPassing("01001");
+        Boolean isPassing = dfa.isAccepted("01001");
         assertTrue(isPassing);
-        assertFalse(dfa.isPassing("00110"));
-        assertTrue(dfa.isPassing("1111111"));
+        assertFalse(dfa.isAccepted("00110"));
+        assertTrue(dfa.isAccepted("1111111"));
     }
 }

@@ -20,11 +20,11 @@ public class DFARunner {
     public Boolean runAll() {
         Boolean passing;
         for (String passCase : passCases) {
-            passing = dfa.isPassing(passCase);
+            passing = dfa.isAccepted(passCase);
             if (!passing) return false;
         }
         for (String failCase : failCases) {
-            passing = !dfa.isPassing(failCase);
+            passing = !dfa.isAccepted(failCase);
             if (!passing) return false;
         }
         return true;

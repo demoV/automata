@@ -5,7 +5,7 @@ import com.google.gson.Gson;
 import main.java.DFAManager;
 
 public class Parser {
-    public DFAManager toDfARunner(String jsonString) {
+    public DFAManager toDFAManager(String jsonString) {
         String replace = jsonString.replaceAll("-", "_");
         return new Gson().fromJson(replace, DFAManager.class);
     }

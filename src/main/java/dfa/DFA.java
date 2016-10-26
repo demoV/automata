@@ -18,7 +18,7 @@ public class DFA {
         this.transitions = transitions;
     }
 
-    public Boolean isPassing(String string) {
+    public Boolean isAccepted(String string) {
         String currentState = initialState;
         for (int i = 0; i < string.length(); i++) {
             String oneChar = String.valueOf(string.charAt(i));
