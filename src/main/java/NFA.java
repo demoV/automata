@@ -20,17 +20,23 @@ public class NFA {
         String currentState = initialState;
         acceptedList = new ArrayList<>();
         for (int i = 0; i < string.length(); i++) {
+            String alphabet = String.valueOf(string.charAt(i));
             List<String> epsilons = transitions.epsilonStates(currentState);
-            if (epsilons != null) for (String epsilonState : epsilons)
-                acceptedList.add(new NFA(transitions, epsilonState, finalState).isAccepted(string.substring(i)));
-            List<String> currentStates = transitions.nextStates(currentState, String.valueOf(string.charAt(i)));
+            if (epsilons != null)
+                addAcceptanceFor(epsilons, string.substring(i));
+            List<String> currentStates = transitions.nextStates(currentState, alphabet);
             if (currentStates == null) break;
-            currentState = currentStates.get(currentStates.size() - 1);
-            for (int j = 0; j < currentStates.size() - 1; j++)
-                acceptedList.add(new NFA(transitions, currentStates.get(j), finalState).isAccepted(string.substring(i)));
+            currentState = currentStates.remove(currentStates.size() - 1);
+            addAcceptanceFor(currentStates, alphabet);
         }
         acceptedList.add(finalState.contains(currentState));
         return acceptedList.contains(true);
+    }
+
+    private void addAcceptanceFor(List<String> states, String substring) {
+        for (String state : states) {
+            acceptedList.add(new NFA(transitions, state, finalState).isAccepted(substring));
+        }
     }
 
 }
