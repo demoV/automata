@@ -5,7 +5,6 @@ import java.util.HashMap;
 public class Transitions {
     private HashMap<String, HashMap<String, String>> transitions = new HashMap<>();
 
-
     public void add(String currentState, String alphabet, String nextState) {
         if (!transitions.containsKey(currentState))
             transitions.put(currentState, new HashMap<String, String>());

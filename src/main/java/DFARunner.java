@@ -18,6 +18,7 @@ public class DFARunner {
     }
 
     public Boolean runAll() {
+        System.out.println("running: " + name);
         Boolean passing;
         for (String passCase : passCases) {
             passing = dfa.isAccepted(passCase);

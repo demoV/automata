@@ -1,11 +1,16 @@
 package main.java;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import main.java.dfa.DFA;
 import main.java.dfa.Transitions;
 import main.java.parser.Parser;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.io.FileReader;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -26,7 +31,7 @@ public class DEAGeneratorTest {
         final Parser parser = new Parser();
         DFAManager dfaManager = parser.toDFAManager(jsonString);
 
-        DFARunner runner = dfaManager.createRunner(new DFAGenerator() {
+        DFARunner runner = dfaManager.createRunner(new DFACreator() {
             @Override
             public DFA create(List<String> states, List<String> alphabets, HashMap<String, HashMap<String, String>> delta, String startState, List<String> finalStates) {
                 HashSet<String> statesSet = new HashSet<>(states);
@@ -42,7 +47,30 @@ public class DEAGeneratorTest {
     }
 
     @Test
-    public void canRunAllFromFile() throws Exception {
+    public void canRunAllTestFromGivenFile() throws Exception {
+        Type type = new TypeToken<ArrayList<DFAManager>>() {
+        }.getType();
+        ArrayList<DFAManager> parseJson = new Gson().fromJson(new FileReader("resources/examples.json"), type);
+        DFACreator dfaCreator = new DFACreator() {
+            @Override
+            public DFA create(List<String> states, List<String> alphabets, HashMap<String, HashMap<String, String>> delta, String startState, List<String> finalStates) {
+                HashSet<String> statesSet = new HashSet<>(states);
+                HashSet<String> alphabetSet = new HashSet<>(alphabets);
+                HashSet<String> finalSet = new HashSet<>(finalStates);
+                Transitions transitions = new Transitions();
+                transitions.addAll(delta);
+                return new DFA(statesSet, alphabetSet, startState, finalSet, transitions);
+            }
+        };
+
+        for (DFAManager manager : parseJson) {
+            Assert.assertTrue(manager.createRunner(dfaCreator).runAll());
+        }
+    }
+
+    @Test
+    public void name() throws Exception {
+
 
     }
 }

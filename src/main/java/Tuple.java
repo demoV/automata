@@ -5,7 +5,7 @@ import main.java.dfa.DFA;
 import java.util.HashMap;
 import java.util.List;
 
-public class Tuple {
+class Tuple {
     private final List<String> alphabets;
     private final HashMap<String, HashMap<String, String>> delta;
     private final String start_state;
@@ -20,7 +20,7 @@ public class Tuple {
         this.final_states = final_states;
     }
 
-    public DFA getDFA(DFAGenerator generator) {
+    DFA getDFA(DFACreator generator) {
         return generator.create(states, alphabets, delta, start_state, final_states);
     }
 }
