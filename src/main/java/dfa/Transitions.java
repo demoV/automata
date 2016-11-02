@@ -3,7 +3,7 @@ package main.java.dfa;
 import java.util.HashMap;
 
 public class Transitions {
-    private HashMap<String, HashMap<String, String>> transitions = new HashMap<>();
+    private HashMap<String, HashMap> transitions = new HashMap<>();
 
     public void add(String currentState, String alphabet, String nextState) {
         if (!transitions.containsKey(currentState))
@@ -12,10 +12,10 @@ public class Transitions {
     }
 
     public String nextState(String currentState, String alphabet) {
-        return transitions.get(currentState).get(alphabet);
+        return transitions.get(currentState).get(alphabet).toString();
     }
 
-    public void addAll(HashMap<String, HashMap<String, String>> delta) {
+    public void addAll(HashMap<String, HashMap> delta) {
         transitions = delta;
     }
 }

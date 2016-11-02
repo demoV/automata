@@ -1,8 +1,10 @@
 package main.java.dfa;
 
+import main.java.FA;
+
 import java.util.Set;
 
-public class DFA {
+public class DFA implements FA {
 
     private final Set<String> states;
     private final Set<String> alphabets;

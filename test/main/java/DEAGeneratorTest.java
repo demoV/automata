@@ -31,9 +31,9 @@ public class DEAGeneratorTest {
         final Parser parser = new Parser();
         DFAManager dfaManager = parser.toDFAManager(jsonString);
 
-        DFARunner runner = dfaManager.createRunner(new DFACreator() {
+        DFARunner runner = dfaManager.createRunner(new FACreator() {
             @Override
-            public DFA create(List<String> states, List<String> alphabets, HashMap<String, HashMap<String, String>> delta, String startState, List<String> finalStates) {
+            public DFA create(List<String> states, List<String> alphabets, HashMap<String, HashMap> delta, String startState, List<String> finalStates) {
                 HashSet<String> statesSet = new HashSet<>(states);
                 HashSet<String> alphabetSet = new HashSet<>(alphabets);
                 HashSet<String> finalSet = new HashSet<>(finalStates);
@@ -49,11 +49,12 @@ public class DEAGeneratorTest {
     @Test
     public void canRunAllTestFromGivenFile() throws Exception {
         Type type = new TypeToken<ArrayList<DFAManager>>() {
+
         }.getType();
         ArrayList<DFAManager> parseJson = new Gson().fromJson(new FileReader("resources/examples.json"), type);
-        DFACreator dfaCreator = new DFACreator() {
+        FACreator FACreator = new FACreator() {
             @Override
-            public DFA create(List<String> states, List<String> alphabets, HashMap<String, HashMap<String, String>> delta, String startState, List<String> finalStates) {
+            public DFA create(List<String> states, List<String> alphabets, HashMap<String, HashMap> delta, String startState, List<String> finalStates) {
                 HashSet<String> statesSet = new HashSet<>(states);
                 HashSet<String> alphabetSet = new HashSet<>(alphabets);
                 HashSet<String> finalSet = new HashSet<>(finalStates);
@@ -64,13 +65,32 @@ public class DEAGeneratorTest {
         };
 
         for (DFAManager manager : parseJson) {
-            Assert.assertTrue(manager.createRunner(dfaCreator).runAll());
+            Assert.assertTrue(manager.createRunner(FACreator).runAll());
         }
     }
 
     @Test
     public void name() throws Exception {
+        Type type = new TypeToken<ArrayList<DFAManager>>() {
 
+        }.getType();
+        ArrayList<DFAManager> parseJson = new Gson().fromJson(new FileReader("nfa.json"), type);
+        FACreator FACreator = new FACreator() {
+            @Override
+            public DFA create(List<String> states, List<String> alphabets, HashMap<String, HashMap> delta, String startState, List<String> finalStates) {
+                HashSet<String> statesSet = new HashSet<>(states);
+                HashSet<String> alphabetSet = new HashSet<>(alphabets);
+                HashSet<String> finalSet = new HashSet<>(finalStates);
+                Transitions transitions = new Transitions();
+                transitions.addAll(delta);
+                return new DFA(statesSet, alphabetSet, startState, finalSet, transitions);
+            }
+        };
 
+        for (DFAManager manager : parseJson) {
+            Boolean aBoolean = manager.createRunner(FACreator).runAll();
+            System.out.println("aBoolean = " + aBoolean);
+            Assert.assertTrue(manager.createRunner(FACreator).runAll());
+        }
     }
 }

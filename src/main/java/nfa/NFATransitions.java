@@ -1,11 +1,11 @@
-package main.java;
+package main.java.nfa;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 public class NFATransitions {
-    private HashMap<String, HashMap<String, List<String>>> transitions = new HashMap<>();
+    private HashMap<String, HashMap> transitions = new HashMap<>();
 
     public void add(String state, String alphabet, ArrayList<String> nextStates) {
         if (!transitions.containsKey(state))
@@ -14,10 +14,19 @@ public class NFATransitions {
     }
 
     public List<String> epsilonStates(String currentState) {
-        return transitions.get(currentState).get("E");
+
+        List<String> epsilons = (List<String>) transitions.get(currentState).get("e");
+        return epsilons;
     }
 
     public List<String> nextStates(String currentState, String alphabet) {
-        return transitions.get(currentState).get(alphabet);
+        ArrayList<String> strings = (ArrayList<String>) transitions.get(currentState).get(alphabet);
+        if (strings != null)
+            return (List<String>) strings.clone();
+        return null;
+    }
+
+    public void addAll(HashMap<String, HashMap> delta) {
+        transitions = delta;
     }
 }

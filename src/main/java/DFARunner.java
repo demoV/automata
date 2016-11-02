@@ -1,31 +1,31 @@
 package main.java;
 
-import main.java.dfa.DFA;
-
 import java.util.List;
 
 public class DFARunner {
-    private final DFA dfa;
+    private final FA fa;
     private final List<String> passCases;
     private final List<String> failCases;
+    private String type;
     private String name;
 
-    public DFARunner(String name, DFA dfa, List<String> passCases, List<String> failCases) {
+    public DFARunner(String name, FA dfa, List<String> passCases, List<String> failCases, String type) {
         this.name = name;
-        this.dfa = dfa;
+        this.fa = dfa;
         this.passCases = passCases;
         this.failCases = failCases;
+        this.type = type;
     }
 
     public Boolean runAll() {
-        System.out.println("running: " + name);
+        System.out.println("running: " + name + "type: " + type);
         Boolean passing;
         for (String passCase : passCases) {
-            passing = dfa.isAccepted(passCase);
+            passing = fa.isAccepted(passCase);
             if (!passing) return false;
         }
         for (String failCase : failCases) {
-            passing = !dfa.isAccepted(failCase);
+            passing = !fa.isAccepted(failCase);
             if (!passing) return false;
         }
         return true;

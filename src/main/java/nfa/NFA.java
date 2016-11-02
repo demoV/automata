@@ -1,10 +1,12 @@
-package main.java;
+package main.java.nfa;
+
+import main.java.FA;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-public class NFA {
+public class NFA implements FA {
     private final NFATransitions transitions;
     private final String initialState;
     private final Set<String> finalState;
@@ -25,9 +27,13 @@ public class NFA {
             if (epsilons != null)
                 addAcceptanceFor(epsilons, string.substring(i));
             List<String> currentStates = transitions.nextStates(currentState, alphabet);
-            if (currentStates == null) break;
+            if (currentStates == null || currentStates.size() == 0) {
+                currentState = null;
+                break;
+            }
+
             currentState = currentStates.remove(currentStates.size() - 1);
-            addAcceptanceFor(currentStates, alphabet);
+            addAcceptanceFor(currentStates, string.substring(i + 1));
         }
         acceptedList.add(finalState.contains(currentState));
         return acceptedList.contains(true);
