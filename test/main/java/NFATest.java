@@ -121,10 +121,21 @@ public class NFATest {
         finalStates.add("q2");
 
         NFA nfa = new NFA(transitions, startState, finalStates);
-//        "pass_cases":["","0","1","00","001","0011","0001","011","000111"],"fail_cases":["10","1110","010","10101","1101"]
-//        Assert.assertTrue(nfa.isAccepted(""));
 
-
+        Assert.assertTrue(nfa.isAccepted(""));
         Assert.assertTrue(nfa.isAccepted("0"));
+        Assert.assertTrue(nfa.isAccepted("1"));
+        Assert.assertTrue(nfa.isAccepted("00"));
+        Assert.assertTrue(nfa.isAccepted("001"));
+        Assert.assertTrue(nfa.isAccepted("0011"));
+        Assert.assertTrue(nfa.isAccepted("0001"));
+        Assert.assertTrue(nfa.isAccepted("011"));
+        Assert.assertTrue(nfa.isAccepted("000111"));
+
+        Assert.assertFalse(nfa.isAccepted("10"));
+        Assert.assertFalse(nfa.isAccepted("1110"));
+        Assert.assertFalse(nfa.isAccepted("010"));
+        Assert.assertFalse(nfa.isAccepted("10101"));
+        Assert.assertFalse(nfa.isAccepted("1101"));
     }
 }

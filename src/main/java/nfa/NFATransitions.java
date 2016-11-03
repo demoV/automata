@@ -14,7 +14,6 @@ public class NFATransitions {
     }
 
     public List<String> epsilonStates(String currentState) {
-
         List<String> epsilons = (List<String>) transitions.get(currentState).get("e");
         return epsilons;
     }

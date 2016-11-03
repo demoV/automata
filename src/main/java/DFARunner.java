@@ -18,7 +18,7 @@ public class DFARunner {
     }
 
     public Boolean runAll() {
-        System.out.println("running: " + name + "type: " + type);
+        System.out.println("running: " + name + " type: " + type);
         Boolean passing;
         for (String passCase : passCases) {
             passing = fa.isAccepted(passCase);
