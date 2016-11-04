@@ -14,15 +14,22 @@ public class NFATransitions {
     }
 
     public List<String> epsilonStates(String currentState) {
-        List<String> epsilons = (List<String>) transitions.get(currentState).get("e");
+        HashMap epsilonMap = transitions.get(currentState);
+        if (epsilonMap == null)
+            return null;
+        List<String> epsilons = (List<String>) epsilonMap.get("e");
         return epsilons;
     }
 
     public List<String> nextStates(String currentState, String alphabet) {
-        ArrayList<String> strings = (ArrayList<String>) transitions.get(currentState).get(alphabet);
-        if (strings != null)
-            return (List<String>) strings.clone();
+        HashMap hashMap = transitions.get(currentState);
+        if (hashMap != null) {
+            ArrayList<String> strings = (ArrayList<String>) hashMap.get(alphabet);
+            if (strings != null)
+                return (List<String>) strings.clone();
+        }
         return null;
+
     }
 
     public void addAll(HashMap<String, HashMap> delta) {

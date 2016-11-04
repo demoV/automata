@@ -37,9 +37,8 @@ public class NFA implements FA {
         }
         if (currentState != null) {
             List<String> strings = transitions.epsilonStates(currentState);
-            if (strings != null) for (String s : strings) {
-                acceptedList.add(finalState.contains(s));
-            }
+            if (strings != null)
+                addAcceptanceFor(strings, "");
         }
         acceptedList.add(finalState.contains(currentState));
         return acceptedList.contains(true);

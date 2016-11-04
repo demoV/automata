@@ -1,11 +1,13 @@
 package main.java;
 
+import com.google.gson.Gson;
 import main.java.nfa.NFA;
 import main.java.nfa.NFATransitions;
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -137,5 +139,99 @@ public class NFATest {
         Assert.assertFalse(nfa.isAccepted("010"));
         Assert.assertFalse(nfa.isAccepted("10101"));
         Assert.assertFalse(nfa.isAccepted("1101"));
+    }
+
+    @Test
+    public void run1_0_or_0_1() throws Exception {
+        NFATransitions transitions = new NFATransitions();
+
+        ArrayList<String> q1Epsilon = new ArrayList<>();
+        q1Epsilon.add("q2");
+        q1Epsilon.add("q4");
+        transitions.add("q1", "e", q1Epsilon);
+
+        ArrayList<String> q2Epsilon = new ArrayList<>();
+        q2Epsilon.add("q3");
+        transitions.add("q2", "e", q2Epsilon);
+
+        ArrayList<String> q2ZeroInput = new ArrayList<>();
+        q2ZeroInput.add("q2");
+        transitions.add("q2", "0", q2ZeroInput);
+
+        ArrayList<String> q3Epsilon = new ArrayList<>();
+        q3Epsilon.add("q6");
+        transitions.add("q3", "e", q3Epsilon);
+
+        ArrayList<String> q3OneInput = new ArrayList<>();
+        q3OneInput.add("q3");
+        transitions.add("q3", "1", q3OneInput);
+
+        ArrayList<String> q4Epsilon = new ArrayList<>();
+        q4Epsilon.add("q5");
+        transitions.add("q4", "e", q4Epsilon);
+
+        ArrayList<String> q4OneInput = new ArrayList<>();
+        q4OneInput.add("q4");
+        transitions.add("q4", "1", q4OneInput);
+
+        ArrayList<String> q5Epsilon = new ArrayList<>();
+        q5Epsilon.add("q7");
+        transitions.add("q5", "e", q5Epsilon);
+
+        ArrayList<String> q5ZeroInput = new ArrayList<>();
+        q5ZeroInput.add("q5");
+        transitions.add("q5", "0", q5ZeroInput);
+
+        HashSet<String> finalStates = new HashSet<>();
+        finalStates.add("q6");
+        finalStates.add("q7");
+
+        String startState = "q1";
+
+        NFA nfa = new NFA(transitions, startState, finalStates);
+        Assert.assertTrue(nfa.isAccepted(""));
+    }
+
+    @Test
+    public void name1() throws Exception {
+        String a = "{'delta' : {'q1':{'e':['q2','q4']},'q3':{'0':['q3']},'q9':{'e':['q7']},'q7':{'1':['q8'],'e':['q9']},'q2':{'0':['q3']},'q8':{'0':['q9']},'q5':{'1':['q6']},'q6':{'e':['q7','q4']},'q4':{'0':['q5'],'e':['q6']}}}";
+        MyDelta myDelta = new Gson().fromJson(a, MyDelta.class);
+        HashMap<String, HashMap> delta = myDelta.getDelta();
+
+        NFATransitions nfaTransitions = new NFATransitions();
+        nfaTransitions.addAll(delta);
+
+        String startState = "q1";
+        HashSet<String> finalStates = new HashSet<>();
+        finalStates.add("q3");
+        finalStates.add("q9");
+        finalStates.add("q6");
+//        pass_cases":["0","000","01","10","0110"],"fail_cases":["1","11","111","1101","0111"]
+        NFA nfa = new NFA(nfaTransitions, startState, finalStates);
+        Assert.assertTrue(nfa.isAccepted("0"));
+    }
+
+    @Test
+    public void canHandleByDirectionalEpsilon() throws Exception {
+        NFATransitions transitions = new NFATransitions();
+        ArrayList<String> q1Epsilon = new ArrayList<>();
+        q1Epsilon.add("q2");
+        transitions.add("q1", "e", q1Epsilon);
+
+        ArrayList<String> q1ZeroInput = new ArrayList<>();
+        q1ZeroInput.add("q2");
+        transitions.add("q1", "0", q1ZeroInput);
+
+        ArrayList<String> q2Epsilon = new ArrayList<>();
+        q2Epsilon.add("q1");
+        transitions.add("q2", "e", q2Epsilon);
+        ArrayList<String> q2ZeroInput = new ArrayList<>();
+        q2ZeroInput.add("q2");
+        transitions.add("q2", "0", q2ZeroInput);
+
+        HashSet<String> finalStates = new HashSet<>();
+        finalStates.add("q2");
+        NFA nfa = new NFA(transitions, "q1", finalStates);
+        Assert.assertTrue(nfa.isAccepted("00"));
     }
 }
