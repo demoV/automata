@@ -1,8 +1,5 @@
 package org.step.lalit;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import org.step.lalit.dfa.DFA;
 import org.step.lalit.nfa.NFA;
 import org.step.lalit.nfa.NFATransitions;
 
@@ -14,12 +11,11 @@ import java.util.Set;
 public class DFAManager {
     private final String name;
     private final String type;
-    private final JsonObject tuple;
+    private final Tuple tuple;
     private final List<String> pass_cases;
     private final List<String> fail_cases;
-    private final FACreator creator = dfaCreator();
 
-    public DFAManager(String name, String type, JsonObject tuple, List<String> pass_cases, List<String> fail_cases) {
+    public DFAManager(String name, String type, Tuple tuple, List<String> pass_cases, List<String> fail_cases) {
         this.name = name;
         this.type = type;
         this.tuple = tuple;
@@ -27,11 +23,14 @@ public class DFAManager {
         this.fail_cases = fail_cases;
     }
 
-    private FACreator dfaCreator() {
+    private FACreator nfaCreator() {
         return new FACreator() {
             @Override
-            public DFA create(List<String> states, List<String> alphabets, HashMap<String, HashMap> delta, String startState, List<String> finalStates) {
-                return null;
+            public FA create(List<String> states, List<String> alphabets, HashMap<String, HashMap> delta, String startState, List<String> finalStates) {
+                Set<String> finalSet = new HashSet<>(finalStates);
+                NFATransitions nfaTransitions = new NFATransitions();
+                nfaTransitions.addAll(delta);
+                return new NFA(nfaTransitions, startState, finalSet);
             }
         };
     }
@@ -39,24 +38,10 @@ public class DFAManager {
     public DFARunner createRunner(FACreator creator) {
 
         if (type.equals("dfa")) {
-            Tuple t = new Gson().fromJson(tuple.toString(), Tuple.class);
-            return new DFARunner(name, t.getDFA(creator), pass_cases, fail_cases, type);
+            return new DFARunner(name, tuple.buildFA(creator), pass_cases, fail_cases, type);
         } else if (type.equals("nfa")) {
-            Tuple t = new Gson().fromJson(tuple.toString(), Tuple.class);
-            return new DFARunner(name, t.getDFA(new FACreator() {
-                @Override
-                public FA create(List<String> states, List<String> alphabets, HashMap<String, HashMap> delta, String startState, List<String> finalStates) {
-                    Set<String> finalSet = new HashSet<>(finalStates);
-                    NFATransitions nfaTransitions = new NFATransitions();
-                    nfaTransitions.addAll(delta);
-                    return new NFA(nfaTransitions, startState, finalSet);
-                }
-            }), pass_cases, fail_cases, type);
+            return new DFARunner(name, tuple.buildFA(nfaCreator()), pass_cases, fail_cases, type);
         }
         return null;
-    }
-
-    public String nameOf() {
-        return name;
     }
 }

@@ -195,7 +195,7 @@ public class NFATest {
     @Test
     public void shouldRunUnionOfZeroAndOne() throws Exception {
         String deltaString = "{'delta' : {'q1':{'e':['q2','q4']},'q3':{'0':['q3']},'q9':{'e':['q7']},'q7':{'1':['q8'],'e':['q9']},'q2':{'0':['q3']},'q8':{'0':['q9']},'q5':{'1':['q6']},'q6':{'e':['q7','q4']},'q4':{'0':['q5'],'e':['q6']}}}";
-        MyDelta myDelta = new Gson().fromJson(deltaString, MyDelta.class);
+        TestCaseDelta myDelta = new Gson().fromJson(deltaString, TestCaseDelta.class);
         HashMap<String, HashMap> delta = myDelta.getDelta();
 
         NFATransitions nfaTransitions = new NFATransitions();
@@ -206,14 +206,14 @@ public class NFATest {
         finalStates.add("q3");
         finalStates.add("q9");
         finalStates.add("q6");
-//        pass_cases":["0","000","01","10","0110"],"fail_cases":["1","11","111","1101","0111"]
+
         NFA nfa = new NFA(nfaTransitions, startState, finalStates);
         Assert.assertTrue(nfa.isAccepted("0"));
         Assert.assertTrue(nfa.isAccepted("000"));
         Assert.assertTrue(nfa.isAccepted("01"));
         Assert.assertTrue(nfa.isAccepted("10"));
         Assert.assertTrue(nfa.isAccepted("0110"));
-//
+
         Assert.assertFalse(nfa.isAccepted("1"));
         Assert.assertFalse(nfa.isAccepted("11"));
         Assert.assertFalse(nfa.isAccepted("111"));
@@ -248,7 +248,7 @@ public class NFATest {
     @Test
     public void shouldPass0Star1StarOr1Star0Star() throws Exception {
         String deltaString = "{'delta':{'q1':{'e':['q2','q4']},'q2':{'0':['q2'],'e':['q3']},'q3':{'1':['q3']},'q4':{'1':['q4'],'e':['q5']},'q5':{'0':['q5']}}}";
-        MyDelta myDelta = new Gson().fromJson(deltaString, MyDelta.class);
+        TestCaseDelta myDelta = new Gson().fromJson(deltaString, TestCaseDelta.class);
 
         HashMap<String, HashMap> delta = myDelta.getDelta();
         NFATransitions nfaTransitions = new NFATransitions();

@@ -18,7 +18,7 @@ class Tuple {
         this.final_states = final_states;
     }
 
-    FA getDFA(FACreator generator) {
-        return generator.create(states, alphabets, delta, start_state, final_states);
+    FA buildFA(FACreator creator) {
+        return creator.create(states, alphabets, delta, start_state, final_states);
     }
 }
