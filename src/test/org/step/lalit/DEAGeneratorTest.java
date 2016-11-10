@@ -1,12 +1,12 @@
-package main.java;
+package org.step.lalit;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import main.java.dfa.DFA;
-import main.java.dfa.Transitions;
-import main.java.parser.Parser;
 import org.junit.Assert;
 import org.junit.Test;
+import org.step.lalit.dfa.DFA;
+import org.step.lalit.dfa.Transitions;
+import org.step.lalit.parser.Parser;
 
 import java.io.FileReader;
 import java.lang.reflect.Type;

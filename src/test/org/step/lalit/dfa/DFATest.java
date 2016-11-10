@@ -1,7 +1,6 @@
-package main.java;
+package org.step.lalit.dfa;
 
-import main.java.dfa.DFA;
-import main.java.dfa.Transitions;
+
 import org.junit.Test;
 
 import java.util.HashSet;

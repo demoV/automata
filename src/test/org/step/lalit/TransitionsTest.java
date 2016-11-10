@@ -1,7 +1,7 @@
-package main.java;
+package org.step.lalit;
 
-import main.java.dfa.Transitions;
 import org.junit.Test;
+import org.step.lalit.dfa.Transitions;
 
 import static org.junit.Assert.assertEquals;
 

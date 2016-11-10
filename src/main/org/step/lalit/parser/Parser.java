@@ -1,8 +1,8 @@
-package main.java.parser;
+package org.step.lalit.parser;
 
 
 import com.google.gson.Gson;
-import main.java.DFAManager;
+import org.step.lalit.DFAManager;
 
 public class Parser {
     public DFAManager toDFAManager(String jsonString) {

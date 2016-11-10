@@ -1,10 +1,10 @@
-package main.java;
+package org.step.lalit;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import main.java.dfa.DFA;
-import main.java.nfa.NFA;
-import main.java.nfa.NFATransitions;
+import org.step.lalit.dfa.DFA;
+import org.step.lalit.nfa.NFA;
+import org.step.lalit.nfa.NFATransitions;
 
 import java.util.HashMap;
 import java.util.HashSet;

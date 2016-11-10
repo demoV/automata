@@ -1,4 +1,4 @@
-package main.java;
+package org.step.lalit;
 
 import java.util.HashMap;
 

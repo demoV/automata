@@ -1,4 +1,4 @@
-package main.java;
+package org.step.lalit;
 
 import java.util.List;
 
@@ -21,10 +21,12 @@ public class DFARunner {
         System.out.println("running: " + name + " type: " + type);
         Boolean passing;
         for (String passCase : passCases) {
+            System.out.println("passCase = " + passCase);
             passing = fa.isAccepted(passCase);
             if (!passing) return false;
         }
         for (String failCase : failCases) {
+            System.out.println("failCase = " + failCase);
             passing = !fa.isAccepted(failCase);
             if (!passing) return false;
         }

@@ -1,4 +1,4 @@
-package main.java.dfa;
+package org.step.lalit.dfa;
 
 import java.util.HashMap;
 
