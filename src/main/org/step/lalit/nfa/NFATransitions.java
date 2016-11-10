@@ -36,8 +36,8 @@ public class NFATransitions {
             if (!currentEpsilons.contains(epsilon)) {
                 currentEpsilons.add(epsilon);
                 thisEpsilons = epsilonStates(epsilon);
-                if (thisEpsilons != null) {
-                    return allEpsilons(thisEpsilons, currentEpsilons);
+                if (!thisEpsilons.isEmpty()) {
+                    currentEpsilons = allEpsilons(thisEpsilons, currentEpsilons);
                 }
             }
         }
@@ -63,8 +63,12 @@ public class NFATransitions {
     public List<String> nextStates(List<String> currentStates, String alphabet) {
         ArrayList<String> nextStates = new ArrayList<>();
         for (String currentState : currentStates) {
-            nextStates.addAll(nextStates(currentState, alphabet));
-            nextStates.addAll(allEpsilons(currentState));
+            List<String> states = nextStates(currentState, alphabet);
+            nextStates.addAll(states);
+            for (String state : states) {
+                nextStates.addAll(allEpsilons(state));
+            }
+//            nextStates.addAll(allEpsilons(currentState));
         }
         return nextStates;
     }

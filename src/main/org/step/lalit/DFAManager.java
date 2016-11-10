@@ -55,4 +55,8 @@ public class DFAManager {
         }
         return null;
     }
+
+    public String nameOf() {
+        return name;
+    }
 }

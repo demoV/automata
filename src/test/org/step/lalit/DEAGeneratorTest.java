@@ -70,7 +70,7 @@ public class DEAGeneratorTest {
     }
 
     @Test
-    public void name() throws Exception {
+    public void ShouldRunAllCasesFromGivenFile() throws Exception {
         Type type = new TypeToken<ArrayList<DFAManager>>() {
 
         }.getType();
@@ -88,9 +88,8 @@ public class DEAGeneratorTest {
         };
 
         for (DFAManager manager : parseJson) {
-            Boolean aBoolean = manager.createRunner(FACreator).runAll();
-            System.out.println("aBoolean = " + aBoolean);
-            Assert.assertTrue(manager.createRunner(FACreator).runAll());
+            DFARunner runner = manager.createRunner(FACreator);
+            Assert.assertTrue(runner.runAll());
         }
     }
 }

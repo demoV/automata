@@ -21,13 +21,13 @@ public class DFARunner {
         System.out.println("running: " + name + " type: " + type);
         Boolean passing;
         for (String passCase : passCases) {
-            System.out.println("passCase = " + passCase);
             passing = fa.isAccepted(passCase);
+            System.out.println("running passCase = " + passCase + "  status = " + passing);
             if (!passing) return false;
         }
         for (String failCase : failCases) {
-            System.out.println("failCase = " + failCase);
             passing = !fa.isAccepted(failCase);
+            System.out.println("running failCase = " + failCase + "  status = " + passing);
             if (!passing) return false;
         }
         return true;
