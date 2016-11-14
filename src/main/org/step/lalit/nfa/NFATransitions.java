@@ -1,10 +1,13 @@
 package org.step.lalit.nfa;
 
+import org.step.lalit.States;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 public class NFATransitions {
+    private final String EPSILON = "e";
     private HashMap<String, HashMap> transitions = new HashMap<>();
 
     public void add(String state, String alphabet, ArrayList<String> nextStates) {
@@ -13,46 +16,46 @@ public class NFATransitions {
         transitions.get(state).put(alphabet, nextStates);
     }
 
-    public List<String> epsilonStates(String currentState) {
+    public States epsilonStates(String currentState) {
         HashMap epsilonMap = new HashMap();
         if (transitions.containsKey(currentState))
             epsilonMap = transitions.get(currentState);
-        List<String> epsilons = (List<String>) epsilonMap.get("e");
-        if (epsilons != null)
-            return epsilons;
-        return new ArrayList<>();
+        States eps = new States();
+        ArrayList<String> arrayList = (ArrayList<String>) epsilonMap.get(EPSILON);
+        if (arrayList != null) {
+            eps.addAll(arrayList);
+        }
+        return eps;
     }
 
-    public ArrayList<String> allEpsilons(String currentState) {
-        List<String> epsilons = epsilonStates(currentState);
-        ArrayList<String> currentEpsilons = new ArrayList<>();
+    States allEpsilonStates(String currentState) {
+        States epsilons = epsilonStates(currentState);
+        States currentEpsilons = new States();
         currentEpsilons.add(currentState);
-        return allEpsilons(epsilons, currentEpsilons);
+        return allEpsilonStates(epsilons, currentEpsilons);
     }
 
-    private ArrayList<String> allEpsilons(List<String> epsilons, ArrayList<String> currentEpsilons) {
+    private States allEpsilonStates(States epsilons, States currentEpsilons) {
         for (String epsilon : epsilons) {
-            List<String> thisEpsilons;
+            States thisEpsilons;
             if (!currentEpsilons.contains(epsilon)) {
                 currentEpsilons.add(epsilon);
                 thisEpsilons = epsilonStates(epsilon);
-                if (!thisEpsilons.isEmpty()) {
-                    currentEpsilons = allEpsilons(thisEpsilons, currentEpsilons);
-                }
+                allEpsilonStates(thisEpsilons, currentEpsilons);
             }
         }
         return currentEpsilons;
     }
 
-    public List<String> nextStates(String currentState, String alphabet) {
+    private States nextStates(String currentState, String alphabet) {
         HashMap hashMap = transitions.get(currentState);
+        States states = new States();
         if (hashMap != null) {
             ArrayList<String> strings = (ArrayList<String>) hashMap.get(alphabet);
             if (strings != null)
-                return (List<String>) strings.clone();
+                states.addAll(strings);
         }
-        return new ArrayList<>();
-
+        return states;
     }
 
     public void addAll(HashMap<String, HashMap> delta) {
@@ -60,16 +63,15 @@ public class NFATransitions {
     }
 
 
-    public List<String> nextStates(List<String> currentStates, String alphabet) {
-        ArrayList<String> nextStates = new ArrayList<>();
+    States nextStates(States currentStates, String alphabet) {
+        States next = new States();
         for (String currentState : currentStates) {
-            List<String> states = nextStates(currentState, alphabet);
-            nextStates.addAll(states);
+            States states = nextStates(currentState, alphabet);
+            next.addAll(states);
             for (String state : states) {
-                nextStates.addAll(allEpsilons(state));
+                next.addAll(allEpsilonStates(state));
             }
-//            nextStates.addAll(allEpsilons(currentState));
         }
-        return nextStates;
+        return next;
     }
 }

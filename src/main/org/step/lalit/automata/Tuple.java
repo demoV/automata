@@ -1,9 +1,9 @@
-package org.step.lalit;
+package org.step.lalit.automata;
 
 import java.util.HashMap;
 import java.util.List;
 
-class Tuple {
+public class Tuple {
     private final List<String> alphabets;
     private final HashMap<String, HashMap> delta;
     private final String start_state;
@@ -18,7 +18,7 @@ class Tuple {
         this.final_states = final_states;
     }
 
-    FA buildFA(FACreator creator) {
+    public FA buildFA(FACreator creator) {
         return creator.create(states, alphabets, delta, start_state, final_states);
     }
 }

@@ -1,6 +1,6 @@
 package org.step.lalit.dfa;
 
-import org.step.lalit.FA;
+import org.step.lalit.automata.FA;
 
 import java.util.Set;
 

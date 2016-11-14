@@ -1,12 +1,11 @@
-package org.step.lalit;
+package org.step.lalit.automata;
 
+import org.step.lalit.States;
 import org.step.lalit.nfa.NFA;
 import org.step.lalit.nfa.NFATransitions;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class DFAManager {
     private final String name;
@@ -27,7 +26,8 @@ public class DFAManager {
         return new FACreator() {
             @Override
             public FA create(List<String> states, List<String> alphabets, HashMap<String, HashMap> delta, String startState, List<String> finalStates) {
-                Set<String> finalSet = new HashSet<>(finalStates);
+                States finalSet = new States();
+                finalSet.addAll(finalStates);
                 NFATransitions nfaTransitions = new NFATransitions();
                 nfaTransitions.addAll(delta);
                 return new NFA(nfaTransitions, startState, finalSet);

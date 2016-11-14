@@ -1,4 +1,4 @@
-package org.step.lalit;
+package org.step.lalit.automata;
 
 import java.util.List;
 

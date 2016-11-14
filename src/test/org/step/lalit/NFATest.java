@@ -8,8 +8,6 @@ import org.step.lalit.nfa.NFATransitions;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
 
 import static org.junit.Assert.assertTrue;
 
@@ -18,7 +16,7 @@ public class NFATest {
     public void shouldBeAbleToRunTransition() throws Exception {
         String initialState = "q1";
 
-        Set<String> finalState = new HashSet<>(1);
+        States finalState = new States();
         finalState.add("q2");
 
         NFATransitions transitions = new NFATransitions();
@@ -79,7 +77,7 @@ public class NFATest {
         q7InputOne.add("q6");
         transitions.add("q7", "1", q7InputOne);
 
-        HashSet<String> finalSet = new HashSet<>();
+        States finalSet = new States();
         finalSet.add("q3");
         finalSet.add("q6");
         NFA nfa = new NFA(transitions, "q1", finalSet);
@@ -119,7 +117,7 @@ public class NFATest {
         transitions.add("q2", "1", q2InputOne);
 
         String startState = "q1";
-        HashSet<String> finalStates = new HashSet<>();
+        States finalStates = new States();
         finalStates.add("q2");
 
         NFA nfa = new NFA(transitions, startState, finalStates);
@@ -182,7 +180,7 @@ public class NFATest {
         q5ZeroInput.add("q5");
         transitions.add("q5", "0", q5ZeroInput);
 
-        HashSet<String> finalStates = new HashSet<>();
+        States finalStates = new States();
         finalStates.add("q6");
         finalStates.add("q7");
 
@@ -202,7 +200,7 @@ public class NFATest {
         nfaTransitions.addAll(delta);
 
         String startState = "q1";
-        HashSet<String> finalStates = new HashSet<>();
+        States finalStates = new States();
         finalStates.add("q3");
         finalStates.add("q9");
         finalStates.add("q6");
@@ -239,7 +237,7 @@ public class NFATest {
         q2ZeroInput.add("q2");
         transitions.add("q2", "0", q2ZeroInput);
 
-        HashSet<String> finalStates = new HashSet<>();
+        States finalStates = new States();
         finalStates.add("q2");
         NFA nfa = new NFA(transitions, "q1", finalStates);
         Assert.assertTrue(nfa.isAccepted("00"));
@@ -255,7 +253,7 @@ public class NFATest {
         nfaTransitions.addAll(delta);
 
         String startState = "q1";
-        HashSet<String> finalStates = new HashSet<>();
+        States finalStates = new States();
         finalStates.add("q3");
         finalStates.add("q5");
 

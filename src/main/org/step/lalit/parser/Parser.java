@@ -2,7 +2,7 @@ package org.step.lalit.parser;
 
 
 import com.google.gson.Gson;
-import org.step.lalit.DFAManager;
+import org.step.lalit.automata.DFAManager;
 
 public class Parser {
     public DFAManager toDFAManager(String jsonString) {
